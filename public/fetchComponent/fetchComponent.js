@@ -1,3 +1,6 @@
+//pub sub , 
+//Invee di fatch alla cahce devo fare una chiamata al mio server
+
 export const generateFetchComponent = () => {
     let token;
 
