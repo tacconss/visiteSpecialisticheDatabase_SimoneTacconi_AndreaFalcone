@@ -1,0 +1,25 @@
+{
+  "name": "5c_cecirecicoriafalcone_visitespecialistiche",
+  "version": "1.0.0",
+  "description": "Gestione prenotazioni per clinica CUROBEN.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fix-22/5C_CecireCicoriaFalcone_VisiteSpecialistiche.git"
+  },
+  "keywords": [
+    "JS"
+  ],
+  "author": "Simone Cecire, Davide Cicoria, Andrea Falcone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Fix-22/5C_CecireCicoriaFalcone_VisiteSpecialistiche/issues"
+  },
+  "homepage": "https://github.com/Fix-22/5C_CecireCicoriaFalcone_VisiteSpecialistiche#readme",
+  "dependencies": {
+    "bootstrap": "^5.3.3"
+  }
+}
