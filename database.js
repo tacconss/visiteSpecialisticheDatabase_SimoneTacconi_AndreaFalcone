@@ -4,46 +4,56 @@ export const generateDatabase = (conf, mysql) => {
 
     //Query Executers
     const executeQuery = (sql) => {
-        return new Promise((resolve, reject) => {      
+        return new Promise((resolve, reject) => {
             connection.query(sql, function (err, result) {
                 if (err) {
                     console.error(err);
-                    reject();     
-                }   
-                resolve(result);         
+                    reject();
+                }
+                resolve(result);
             });
         })
     }
 
     //Create Table
-    const createTable = async function() {
+    const createTable = async function () {
+        await executeQuery(`
+            CREATE TABLE IF NOT EXISTS type (
+                id INT PRIMARY KEY AUTO_INCREMENT,
+                name varchar(20)
+            );`
+        )
         return await executeQuery(`
-            CREATE TABLE IF NOT EXISTS images ( 
-               id INT PRIMARY KEY AUTO_INCREMENT, 
-               url VARCHAR(255) NOT NULL 
+            CREATE TABLE IF NOT EXISTS booking (
+                id int PRIMARY KEY AUTO_INCREMENT,
+                idType int NOT NULL,
+                date DATE NOT NULL,
+                hour INT NOT NULL,
+                name VARCHAR(50),
+                FOREIGN KEY (idType) REFERENCES type(id) 
             );
         `);
-    }
+    };(async() => {
+        await createTable();
+    })();
 
-    createTable();
+    
 
     return {
-        insert: async function (imgs) {
-            const template = `INSERT INTO images (url) VALUES ('$URL');`;
-            let sql = template.replace("$URL", imgs.url); 
-            return await executeQuery(sql);
-        },
-        delete: async function (id) {
-            const template = `DELETE FROM images WHERE id = $ID;`;
-            let sql = template.replace("$ID", id);
+        insert: async function (visit) {
+            const template = `INSERT INTO visits (idType, date, hour, name) VALUES ('$IDTYPE', '$DATE', '$HOUR', '$NAME' );`;
+            let sql = template.replace("$IDTYPE", visit.url);
+            sql = sql.replace("$DATE", visit.url);
+            sql = sql.replace("$HOUR", visit.url);
+            sql = sql.replace("$NAME", visit.url);
             return await executeQuery(sql);
         },
         select: async function () {
-            const sql = `SELECT id, url FROM images;`;
+            const sql = `SELECT * FROM visits;`;
             return await executeQuery(sql);
         },
         truncate: async function () {
-            const sql = `TRUNCATE TABLE images;`
+            const sql = `TRUNCATE TABLE visits;`
             return await executeQuery(sql);
         }
     }
