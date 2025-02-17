@@ -1,5 +1,5 @@
 
-export const generateDatabase = (conf, mysql) => {
+module.exports = function generateDatabase (conf, mysql) {
     const connection = mysql.createConnection(conf);
 
     //Query Executers
@@ -41,19 +41,19 @@ export const generateDatabase = (conf, mysql) => {
 
     return {
         insert: async function (visit) {
-            const template = `INSERT INTO visits (idType, date, hour, name) VALUES ('$IDTYPE', '$DATE', '$HOUR', '$NAME' );`;
-            let sql = template.replace("$IDTYPE", visit.url);
-            sql = sql.replace("$DATE", visit.url);
-            sql = sql.replace("$HOUR", visit.url);
-            sql = sql.replace("$NAME", visit.url);
+            const template = `INSERT INTO booking (idType, date, hour, name) VALUES ('$IDTYPE', '$DATE', '$HOUR', '$NAME' );`;
+            let sql = template.replace("$IDTYPE", visit.idType);
+            sql = sql.replace("$DATE", visit.data);
+            sql = sql.replace("$HOUR", visit.hour);
+            sql = sql.replace("$NAME", visit.name);
             return await executeQuery(sql);
         },
         select: async function () {
-            const sql = `SELECT * FROM visits;`;
+            const sql = `SELECT * FROM booking;`;
             return await executeQuery(sql);
         },
         truncate: async function () {
-            const sql = `TRUNCATE TABLE visits;`
+            const sql = `TRUNCATE TABLE booking;`
             return await executeQuery(sql);
         }
     }

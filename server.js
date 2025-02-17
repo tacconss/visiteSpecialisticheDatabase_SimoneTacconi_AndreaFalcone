@@ -1,5 +1,5 @@
 //Imports
-const { generateDatabase } = require("./database");
+const  generateDatabase = require("./database.js");
 
 //Libraries
 const express = require("express");
@@ -12,12 +12,12 @@ const mysql = require('mysql2');
 
 //Vars
 const conf = JSON.parse(fs.readFileSync('conf.json'));
-conf.ssl = {
-    ca: fs.readFileSync(__dirname + '/ca.pem')
-}
+    conf.ssl.ca =  fs.readFileSync(__dirname + '/ca.pem')
+
 const database = generateDatabase(conf, mysql);
 
 app.use("/", express.static(path.join(__dirname, "public")));
+app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
 
 //Aggiunta Immagini
 app.post('/upload', (req, res) => {
@@ -25,7 +25,7 @@ app.post('/upload', (req, res) => {
    // let dict = {}
 
     //dict[req.body.] = req.body.
-
+        const dict = req.body;
         res.json(dict);
         database.insert(dict);
 });
