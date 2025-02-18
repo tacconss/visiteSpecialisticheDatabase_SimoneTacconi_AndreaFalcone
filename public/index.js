@@ -24,10 +24,8 @@ const nextButton = generateButtonComponent(nextButtonContainer) ;
 
 fetch("./conf.json")
 .then(r => r.json())
-.then(data => {
+.then(async (data) => {
     confFileContent = data;
-
-    componenteFetch.build(confFileContent["cacheToken"]) ;
 
     navbar.build(confFileContent["tipologie"]);
     navbar.render();
@@ -44,11 +42,12 @@ fetch("./conf.json")
     
     componentTable.build(hours, days);
     spinner.classList.remove("d-none");
-    componenteFetch.getData().then(data => {
-        spinner.classList.add("d-none");
-        componentTable.setData(data, navbar.getCurrentCategory());
-        componentTable.render();
-    });
+    
+    await componenteFetch.getData()
+    console.log("sni")
+    spinner.classList.add("d-none");
+    componentTable.setData(data, navbar.getCurrentCategory());
+    componentTable.render();
 
     reservationForm.build(hours);
     reservationForm.render();
