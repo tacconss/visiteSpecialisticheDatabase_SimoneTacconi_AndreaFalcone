@@ -7,7 +7,7 @@ export const generateFetchComponent = () => {
     return {
         setData: async (data) => {
             console.log(data);
-            fetch("/upload", {
+            fetch("/add", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",

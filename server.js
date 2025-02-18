@@ -22,6 +22,7 @@ app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
 //Aggiunta Immagini
 app.post('/add', (req, res) => {
     const dict = req.body;
+    console.log(req);
     res.json(dict);
     database.insert(dict);
 });

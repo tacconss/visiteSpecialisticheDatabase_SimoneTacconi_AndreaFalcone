@@ -29,14 +29,13 @@ fetch("./conf.json")
 
     navbar.build(confFileContent["tipologie"]);
     navbar.render();
-    navbar.onclick(category => {
+    navbar.onclick(async (category) => {
         reservationForm.setType(category);
         spinner.classList.remove("d-none");
-        componenteFetch.getData().then((r) => {
-            spinner.classList.add("d-none");
-            componentTable.setData(r ,category)
-            componentTable.render();
-        });
+        let r = await componenteFetch.getData()
+        spinner.classList.add("d-none");
+        componentTable.setData(r ,category)
+        componentTable.render();
     });
     reservationForm.setType(navbar.getCurrentCategory());
     
@@ -80,13 +79,12 @@ fetch("./conf.json")
         componentTable.render();
     }) ;
 
-    setInterval(() => {
+    setInterval(async () => {
         reservationForm.setType(navbar.getCurrentCategory());
         spinner.classList.remove("d-none");
-        componenteFetch.getData().then((r) => {
-            spinner.classList.add("d-none");
-            componentTable.setData(r ,navbar.getCurrentCategory())
-            componentTable.render();
-        });
+        let allData = await componenteFetch.getData()
+        spinner.classList.add("d-none");
+        componentTable.setData(r ,navbar.getCurrentCategory())
+        componentTable.render();
     }, 300000);
 });
