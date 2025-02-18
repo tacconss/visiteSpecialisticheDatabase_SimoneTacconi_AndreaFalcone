@@ -20,27 +20,10 @@ app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
 
 //Aggiunta Immagini
-app.post('/upload', (req, res) => {
-
-   // let dict = {}
-
-    //dict[req.body.] = req.body.
-        const dict = req.body;
-        res.json(dict);
-        database.insert(dict);
-});
-
-//Cancellare Immagini
-app.post('/delete/:id', async (req, res) => {
-    let hold = await database.select();
-    let id = Number(req.params.id);
-
-    hold.forEach(async (element) => {
-        if (element.id == id) {
-            await database.delete(element.id);
-            res.json({status : "OK"});
-        }
-    });
+app.post('/add', (req, res) => {
+    const dict = req.body;
+    res.json(dict);
+    database.insert(dict);
 });
 
 //Ottenere lista URLs Immagini

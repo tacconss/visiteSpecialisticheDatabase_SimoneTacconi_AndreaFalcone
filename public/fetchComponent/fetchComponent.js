@@ -15,7 +15,6 @@ export const generateFetchComponent = () => {
                     method: "POST",
                     headers: {
                         "content-type": "application/json",
-                     
                     },
                     body: JSON.stringify(data)
                 })
@@ -29,8 +28,9 @@ export const generateFetchComponent = () => {
                 fetch("/get")
                 .then(r => r.json())
                 .then(data => {
-                    //let dict = JSON.parse(data.result);
-                    resolve(data.result);
+                    let dict = JSON.parse(data.result);
+                    
+                    resolve(dict);
                 })
                 .catch(err => reject(err.result));
             })
