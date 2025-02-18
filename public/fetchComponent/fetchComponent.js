@@ -8,7 +8,7 @@ export const generateFetchComponent = () => {
         build: (inputToken) => {
             token = inputToken;
         },
-        setData: (key, data) => {
+        setData: (data) => {
             console.log(data);
             return new Promise((resolve, reject) => {
                 fetch("/upload", {
@@ -23,13 +23,13 @@ export const generateFetchComponent = () => {
                 .catch(err => reject(err.result));
             });
         },
-        getData: (key) => {
+        getData: () => {
             return new Promise((resolve, reject) => {
                 fetch("/get")
                 .then(r => r.json())
                 .then(data => {
                     let dict = JSON.parse(data.result);
-                    
+
                     resolve(dict);
                 })
                 .catch(err => reject(err.result));

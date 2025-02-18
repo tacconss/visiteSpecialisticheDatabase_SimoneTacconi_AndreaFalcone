@@ -34,7 +34,7 @@ fetch("./conf.json")
     navbar.onclick(category => {
         reservationForm.setType(category);
         spinner.classList.remove("d-none");
-        componenteFetch.getData("clinica").then((r) => {
+        componenteFetch.getData().then((r) => {
             spinner.classList.add("d-none");
             componentTable.setData(r ,category)
             componentTable.render();
@@ -44,7 +44,7 @@ fetch("./conf.json")
     
     componentTable.build(hours, days);
     spinner.classList.remove("d-none");
-    componenteFetch.getData("clinica").then(data => {
+    componenteFetch.getData().then(data => {
         spinner.classList.add("d-none");
         componentTable.setData(data, navbar.getCurrentCategory());
         componentTable.render();
@@ -56,7 +56,7 @@ fetch("./conf.json")
         if (componentTable.add(r)) {
             reservationForm.setStatus(true);
             componentTable.setData(componentTable.getData(), navbar.getCurrentCategory());
-            componenteFetch.setData("clinica", componentTable.getData()).then(r => console.log(r));
+            componenteFetch.setData(componentTable.getData()).then(r => console.log(r));
         }
         else {
             reservationForm.setStatus(false);
@@ -84,7 +84,7 @@ fetch("./conf.json")
     setInterval(() => {
         reservationForm.setType(navbar.getCurrentCategory());
         spinner.classList.remove("d-none");
-        componenteFetch.getData("clinica").then((r) => {
+        componenteFetch.getData().then((r) => {
             spinner.classList.add("d-none");
             componentTable.setData(r ,navbar.getCurrentCategory())
             componentTable.render();
