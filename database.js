@@ -40,12 +40,23 @@ module.exports = function generateDatabase (conf, mysql) {
     
 
     return {
+        //SIstemare questa parte
         insert: async function (booking) {
+            console.log(booking);
             const template = `INSERT INTO booking (idType, date, hour, name) VALUES ('$IDTYPE', '$DATE', '$HOUR', '$NAME' );`;
+            
+            let keys = booking.keys();
+            let idType;
+            keys.array.forEach(element => {
+                
+            });
+            
+            
             let sql = template.replace("$IDTYPE", booking.idType);
             sql = sql.replace("$DATE", booking.data);
             sql = sql.replace("$HOUR", booking.hour);
             sql = sql.replace("$NAME", booking.name);
+            
             return await executeQuery(sql);
         },
         select: async function () {

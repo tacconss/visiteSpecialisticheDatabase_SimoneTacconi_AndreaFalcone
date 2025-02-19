@@ -29,7 +29,7 @@ fetch("./conf.json")
 
     navbar.build(confFileContent["tipologie"]);
     navbar.render();
-    navbar.onclick(async (category) => {
+    navbar.onclick(async(category) => {
         reservationForm.setType(category);
         spinner.classList.remove("d-none");
         let r = await componenteFetch.getData()
@@ -43,7 +43,7 @@ fetch("./conf.json")
     spinner.classList.remove("d-none");
     
     await componenteFetch.getData()
-    console.log("sni")
+    //console.log("sni")
     spinner.classList.add("d-none");
     componentTable.setData(data, navbar.getCurrentCategory());
     componentTable.render();
@@ -51,10 +51,15 @@ fetch("./conf.json")
     reservationForm.build(hours);
     reservationForm.render();
     reservationForm.onsubmit(r => {
+        console.log(r)
         if (componentTable.add(r)) {
+            console.log(componentTable.getData())
             reservationForm.setStatus(true);
             componentTable.setData(componentTable.getData(), navbar.getCurrentCategory());
-            componenteFetch.setData(componentTable.getData()).then(r => console.log(r));
+            componenteFetch.setData(componentTable.getData()).then(r => {
+                console.log(r)
+               // console.log("entra")
+            });
         }
         else {
             reservationForm.setStatus(false);

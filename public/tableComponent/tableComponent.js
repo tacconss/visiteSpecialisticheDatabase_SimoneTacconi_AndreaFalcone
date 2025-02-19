@@ -81,6 +81,7 @@ export const generateTable = (parentElement) => {
             }
         },
         getData : () => {
+            //console.log(cacheData);
             return cacheData;
         }
     }

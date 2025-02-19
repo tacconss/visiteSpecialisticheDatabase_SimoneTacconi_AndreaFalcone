@@ -7,12 +7,14 @@ export const generateFetchComponent = () => {
     return {
         setData: async (data) => {
             console.log(data);
+            console.log(JSON.stringify(data))
             fetch("/add", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
                 },
                 body: JSON.stringify(data)
+                
             })
             .then(r => r.json())
             .then((data) =>  {
