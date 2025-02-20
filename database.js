@@ -45,17 +45,39 @@ module.exports = function generateDatabase (conf, mysql) {
             console.log(booking);
             const template = `INSERT INTO booking (idType, date, hour, name) VALUES ('$IDTYPE', '$DATE', '$HOUR', '$NAME' );`;
             
-            let keys = booking.keys();
-            let idType;
-            keys.array.forEach(element => {
-                
-            });
+            let keys = Object.keys(booking);
+            let values = Object.values(booking);
+            let info = keys[keys.length-1].split("-");
+            let temp=info[1].split("/");
+            let temp2=temp[2]+"-"+(parseInt(temp[1])<10?"0"+temp[1]:temp[1])+"-"+(parseInt(temp[0])<10?"0"+temp[0]:temp[0]);
+
+            console.log("-------")
+            console.log("keys: " + keys)
+            console.log("values: " + values)
+            console.log("info: " + info)
+            console.log("-------")
+            console.log(info[1])
+            console.log("-------")
             
-            
-            let sql = template.replace("$IDTYPE", booking.idType);
-            sql = sql.replace("$DATE", booking.data);
-            sql = sql.replace("$HOUR", booking.hour);
-            sql = sql.replace("$NAME", booking.name);
+            let num;
+            if (info[0] == "Cardiologia") {
+                num = 1;
+            } else if (info[0] == "Psicologia") {
+                num = 2;
+            } else if (info[0] == "Oncologia") {
+                num = 3;
+            } else if (info[0] == "Ortopedia") {
+                num = 4;
+            } else if (info[0] == "Neurologia") {
+                num = 5;
+            } else if (info[0] == "Odontoiatria") {
+                num = 6;
+            }
+
+            let sql = template.replace("$IDTYPE", num);
+            sql = sql.replace("$DATE", temp2);
+            sql = sql.replace("$HOUR", Number(info[2]));
+            sql = sql.replace("$NAME", values[values.length-1]);
             
             return await executeQuery(sql);
         },
