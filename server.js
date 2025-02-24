@@ -17,6 +17,11 @@ const conf = JSON.parse(fs.readFileSync('conf.json'));
 
 const database = generateDatabase(conf, mysql);
 
+app.set({
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+});
+
 app.use("/", express.static(path.join(__dirname, "public")));
 app.use("/node_modules", express.static(path.join(__dirname, "node_modules")));
 app.use(express.json());

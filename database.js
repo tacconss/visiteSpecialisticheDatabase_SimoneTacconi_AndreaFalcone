@@ -1,4 +1,3 @@
-
 module.exports = function generateDatabase (conf, mysql) {
     const connection = mysql.createConnection(conf);
 
@@ -35,6 +34,7 @@ module.exports = function generateDatabase (conf, mysql) {
         `);
     };(async() => {
         await createTable();
+        //await executeQuery(`TRUNCATE TABLE booking;`);
     })();
 
     
@@ -42,7 +42,6 @@ module.exports = function generateDatabase (conf, mysql) {
     return {
         //SIstemare questa parte
         insert: async function (booking) {
-            console.log(booking);
             const template = `INSERT INTO booking (idType, date, hour, name) VALUES ('$IDTYPE', '$DATE', '$HOUR', '$NAME' );`;
             
             let keys = Object.keys(booking);
@@ -50,14 +49,6 @@ module.exports = function generateDatabase (conf, mysql) {
             let info = keys[keys.length-1].split("-");
             let temp=info[1].split("/");
             let temp2=temp[2]+"-"+(parseInt(temp[1])<10?"0"+temp[1]:temp[1])+"-"+(parseInt(temp[0])<10?"0"+temp[0]:temp[0]);
-
-            console.log("-------")
-            console.log("keys: " + keys)
-            console.log("values: " + values)
-            console.log("info: " + info)
-            console.log("-------")
-            console.log(info[1])
-            console.log("-------")
             
             let num;
             if (info[0] == "Cardiologia") {
@@ -78,12 +69,24 @@ module.exports = function generateDatabase (conf, mysql) {
             sql = sql.replace("$DATE", temp2);
             sql = sql.replace("$HOUR", Number(info[2]));
             sql = sql.replace("$NAME", values[values.length-1]);
-            
             return await executeQuery(sql);
         },
         select: async function () {
             const sql = `SELECT * FROM booking;`;
-            return await executeQuery(sql);
+            const searchType = `SELECT name FROM type WHERE id=$ID`
+
+            let format = {
+                //tipologie: ["Cardiologia", "Psicologia", "Oncologia", "Ortopedia", "Neurologia", "Odontoiatria"]
+            }
+            let respons = await executeQuery(sql)
+            
+            for (let i = 0; i < respons.length; i++) {
+                let category = await executeQuery(searchType.replace('$ID', respons[i].idType));
+                let key = category[0].name + '-' + respons[i].date.getUTCDate() + '/' + (respons[i].date.getUTCMonth() + 1) + '/' + respons[i].date.getUTCFullYear() + '-' + respons[i].hour;
+                format[key] = respons[i].name;
+            }
+            //console.log(format);
+            return format
         },
         truncate: async function () {
             const sql = `TRUNCATE TABLE booking;`
