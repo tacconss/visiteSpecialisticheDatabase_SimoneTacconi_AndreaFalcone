@@ -1,7 +1,8 @@
 //pub sub , 
 //Invee di fatch alla cahce devo fare una chiamata al mio server
 
-export const generateFetchComponent = () => {
+export const createMiddleware = () => {
+
     let hold;
 
     return {
@@ -13,7 +14,7 @@ export const generateFetchComponent = () => {
                     "content-type": "application/json",
                 },
                 body: JSON.stringify(data)
-                
+
             });
             const json = await resp.json();
             return json;
@@ -25,3 +26,6 @@ export const generateFetchComponent = () => {
         }
     };
 }
+
+
+

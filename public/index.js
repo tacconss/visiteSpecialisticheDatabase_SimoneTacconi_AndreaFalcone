@@ -1,4 +1,4 @@
-import {generateFetchComponent} from "./fetchComponent/fetchComponent.js";
+import {createMiddleware} from "./createMiddleware/createMiddleware.js";
 import {generateReservationForm} from "./formComponent/formComponent.js";
 import {generateNavbar} from "./navbarComponent/navbarComponent.js";
 import {generateButtonComponent} from "./buttonComponent/buttonComponent.js";
@@ -15,7 +15,7 @@ let confFileContent;
 const hours = [8, 9, 10, 11, 12];
 const days = ["Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"];
 
-const componenteFetch = generateFetchComponent() ;
+const middleware = createMiddleware() ;
 const componentTable = generateTable(tableContainer);
 const reservationForm = generateReservationForm(modalBody);
 const navbar = generateNavbar(navbarContainer);
@@ -33,8 +33,8 @@ fetch("./conf.json")
     navbar.onclick(async (category) => {
         reservationForm.setType(category);
         spinner.classList.remove("d-none");
-        console.log(await componenteFetch.getData())
-        componentTable.setData(await componenteFetch.getData(),category)
+        console.log(await middleware.getData())
+        componentTable.setData(await middleware.getData(),category)
         componentTable.render();
         spinner.classList.add("d-none");
     });
@@ -55,7 +55,7 @@ fetch("./conf.json")
             console.log(componentTable.getData())
             reservationForm.setStatus(true);
             componentTable.setData(componentTable.getData(), navbar.getCurrentCategory());
-            await componenteFetch.setData(componentTable.getData());
+            await middleware.setData(componentTable.getData());
         }
         else {
             reservationForm.setStatus(false);
@@ -83,14 +83,14 @@ fetch("./conf.json")
     reservationForm.setType(navbar.getCurrentCategory());
     spinner.classList.remove("d-none");
     spinner.classList.add("d-none");
-    componentTable.setData(await componenteFetch.getData() ,navbar.getCurrentCategory())
+    componentTable.setData(await middleware.getData() ,navbar.getCurrentCategory())
     componentTable.render();
 
     setInterval(async () => {
         reservationForm.setType(navbar.getCurrentCategory());
         spinner.classList.remove("d-none");
         spinner.classList.add("d-none");
-        componentTable.setData(await componenteFetch.getData() ,navbar.getCurrentCategory())
+        componentTable.setData(await middleware.getData() ,navbar.getCurrentCategory())
         componentTable.render();
     }, 300000);
 });
